@@ -62,5 +62,10 @@ func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		req.Header.Set(key, writer.String())
 	}
 
+	_, err := rw.Write([]byte("Hello world\n"))
+	if err != nil {
+		return
+	}
+
 	a.next.ServeHTTP(rw, req)
 }
