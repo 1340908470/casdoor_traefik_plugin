@@ -1,9 +1,9 @@
-displayName: Demo Plugin
+displayName: Casdoor Plugin
 type: middleware
 
-import: github.com/traefik/plugindemo
+import: github.com/1340908470/casdoor_traefik_plugin
 
-summary: '[Demo] Add Request Header'
+summary: '[Demo] A Demo of casdoor'
 
 testData:
   Headers:
