@@ -1,0 +1,53 @@
+## STATIC CONFIGURATION
+log:
+  level: INFO
+
+pilot:
+  token: "be933caa-06e1-45c5-addd-d08deefa4378"
+
+api:
+  insecure: true
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+  http:
+    address: ":8001"
+
+experimental:
+  devPlugin:
+    goPath: /etc/traefik
+    moduleName: github.com/github/1340908470/uiddemo
+
+providers:
+  file:
+    filename: "/etc/traefik/traefik.yaml"
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+## DYNAMIC CONFIGURATION
+http:
+  routers:
+    route-whoami:
+      rule: "Path(`/whoami`)"
+      middlewares:
+      - plugindemo
+      service: route-whoami-service
+      priority: 1000
+      entryPoints:
+        - http
+
+  services:
+    route-whoami-service:
+      loadBalancer:
+        servers:
+          - url: "http://localhost:8001"
+
+  middlewares:
+    plugindemo:
+      plugin:
+        example:
+          headers:
+            Foo: Bar        
