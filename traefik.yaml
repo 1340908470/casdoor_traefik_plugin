@@ -10,22 +10,19 @@ api:
   dashboard: true
 
 entryPoints:
-  web:
-    address: ":80"
   http:
-    address: ":8001"
-
-experimental:
-  devPlugin:
-    goPath: /etc/traefik
-    moduleName: github.com/github/1340908470/uiddemo
+    address: ":80"
 
 providers:
   file:
     filename: "/etc/traefik/traefik.yaml"
   docker:
     endpoint: "unix:///var/run/docker.sock"
-    exposedByDefault: false
+
+experimental:
+  devPlugin:
+    goPath: /etc/traefik
+    moduleName: github.com/1340908470/uiddemo
 
 ## DYNAMIC CONFIGURATION
 http:
@@ -33,7 +30,7 @@ http:
     route-whoami:
       rule: "Path(`/whoami`)"
       middlewares:
-      - plugindemo
+        - plugindemo
       service: route-whoami-service
       priority: 1000
       entryPoints:
@@ -43,11 +40,10 @@ http:
     route-whoami-service:
       loadBalancer:
         servers:
-          - url: "http://localhost:8001"
+          - url: "http://localhost:80"
 
   middlewares:
     plugindemo:
       plugin:
-        example:
-          headers:
-            Foo: Bar        
+        dev:
+          Foo: Bar      

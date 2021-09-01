@@ -1,24 +1,40 @@
-version: "2"
+version: "3.6"
 
 services:
   traefik:
-    image: traefik:v2.5
+    image: traefik:v2.4.14
     container_name: "traefik"
     hostname: "traefik"
-    command: 
-      --api.insecure=true 
-      --providers.docker  
     ports:
       - "80:80"
       - "8080:8080"
+    # command :
+    #   - "log.level = INFO"
+    #   # - "pilot.token = be933caa-06e1-45c5-addd-d08deefa4378"      
+    #   - "api.insecure = true"
+    #   - "api.dashboard = true"
+    #   # - "entryPoints.http.address = :80"      
+    #   # - "experimental.devPlugin.goPath = /etc/traefik"
+    #   # - "experimental.devPlugin.moduleName = github.com/1340908470/uiddemo"
+    #   # - "http.routers.route-whoami.rule = Path(`/whoami`)"
+    #   # - "http.routers.route-whoami.middlewares[0] = plugindemo"
+    #   # - "http.routers.route-whoami.service = route-whoami-service"
+    #   # - "http.routers.route-whoami.entryPoints[0] = http"
+    #   # - "http.services.route-whoami-service.loadBalancer.servers[0].url = http://localhost:80"
+    #   # - "http.middlewares.plugindemo.plugin.dev.Foo = Bar"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/etc/traefik/
 
-  # whoami:
-  #   image: "containous/whoami"
-  #   container_name: "whoami"
-  #   hostname: "whoami"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.whoami.rule=Path(`/whoami`)"      
+
+  # a test service run on 8002
+  whoami:
+    image: traefik/whoami
+    container_name: "whoami"
+    labels:
+      - "traefik.http.routers.whoami.rule=Path(`/whoami`)"    
+    # command: 
+    #   --port 8002
+    # ports:
+    #   - "8002:8002"
+      

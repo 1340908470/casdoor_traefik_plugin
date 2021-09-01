@@ -1,5 +1,5 @@
 displayName: UID Demo
-summary: Rewrites the HTTP response body by replacing a search regex by a replacement string.
+summary: 'Rewrites the HTTP response body by replacing a search regex by a replacement string.'
 type: middleware
 
 import: github.com/1340908470/uiddemo
