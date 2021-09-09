@@ -1,0 +1,12 @@
+displayName: Casdoor forward auth plugin
+summary: 'Rewrites the HTTP response body by replacing a search regex by a replacement string.'
+type: middleware
+
+import: github.com/1340908470/casdoorauth
+
+compatibility: TODO
+
+testData:
+  RedirectURI: https://oa.casbin.com/callback    
+  ClientID: 0ba528121ea87b3eb54d
+  ServiceHost: https://door.casbin.com

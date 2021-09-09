@@ -3,7 +3,7 @@ log:
   level: INFO
 
 pilot:
-  token: "be933caa-06e1-45c5-addd-d08deefa4378"
+    token: "82ae5729-835c-464c-87e3-8d621622c1d8"
 
 api:
   insecure: true
@@ -12,6 +12,8 @@ api:
 entryPoints:
   http:
     address: ":80"
+  web:
+    address: ":8002"
 
 providers:
   file:
@@ -22,16 +24,16 @@ providers:
 experimental:
   devPlugin:
     goPath: /etc/traefik
-    moduleName: github.com/1340908470/uiddemo
+    moduleName: github.com/1340908470/casdoorauth
 
 ## DYNAMIC CONFIGURATION
 http:
   routers:
     route-whoami:
-      rule: "Path(`/whoami`)"
+      rule: "Path(`/whoami`) || Path(`/callback`)"
+      service: route-whoami-service
       middlewares:
         - plugindemo
-      service: route-whoami-service
       priority: 1000
       entryPoints:
         - http
@@ -40,10 +42,12 @@ http:
     route-whoami-service:
       loadBalancer:
         servers:
-          - url: "http://localhost:80"
+          - url: "http://localhost:8002"
 
   middlewares:
     plugindemo:
       plugin:
         dev:
-          Foo: Bar      
+          RedirectURI: https://oa.casbin.com/callback    
+          ClientID: 0ba528121ea87b3eb54d
+          ServiceHost: https://door.casbin.com
